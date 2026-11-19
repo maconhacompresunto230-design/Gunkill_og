@@ -2,13 +2,13 @@ local Players = game:GetService("Players")
 local Workspace = game:GetService("Workspace")
 
 local LocalPlayer = Players.LocalPlayer
-local NEW_SOUND_ID = "rbxassetid://107950998888802"
-local GUNKILL_VOLUME = 3
+local NEW_SOUND_ID = "rbxassetid://111409708921167"
+local KILL_VOLUME = 4
 
 local function replaceSound(sound)
     if sound:IsA("Sound") and sound.Name == "GunKill" then
         sound.SoundId = NEW_SOUND_ID
-        sound.Volume = GUNKILL_VOLUME
+        sound.Volume = KILL_VOLUME
     end
 end
 
