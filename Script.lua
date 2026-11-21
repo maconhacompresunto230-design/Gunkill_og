@@ -5,7 +5,7 @@ local LocalPlayer = Players.LocalPlayer
 local NEW_SOUND_ID = "rbxassetid://83007876033336"
 
 local function replaceSound(sound)
-    if sound:IsA("Sound") and sound.Name == "Kill" then
+    if sound:IsA("Sound") and sound.Name == "GunKill" then
         sound.SoundId = NEW_SOUND_ID
     end
 end
