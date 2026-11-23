@@ -5,17 +5,9 @@ local LocalPlayer = Players.LocalPlayer
 local NEW_SOUND_ID = "rbxassetid://137812518234654"
 
 local function replaceSound(sound)
-    if not sound:IsA("Sound") or sound.Name ~= "GunKill" then
-        return
+    if sound:IsA("Sound") and sound.Name == "GunKill" then
+        sound.SoundId = NEW_SOUND_ID
     end
-
-    if sound.SoundId:match("%d+") == "296102734" then
-        sound.Volume = 0
-        sound:Stop()
-        return
-    end
-
-    sound.SoundId = NEW_SOUND_ID
 end
 
 local function scanCharacter(character)
