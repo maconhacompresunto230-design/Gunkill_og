@@ -2,50 +2,38 @@ local Players = game:GetService("Players")
 local Workspace = game:GetService("Workspace")
 
 local LocalPlayer = Players.LocalPlayer
-local SOUND_ID = "rbxassetid://78563877745959"
+local NEW_SOUND_ID = "rbxassetid://137812518234654"
 
 local function replaceSound(sound)
-    if not sound:IsA("Sound") or sound.Name ~= "GunKill" then return end
+    if not sound:IsA("Sound") or sound.Name ~= "GunKill" then
+        return
+    end
 
-    sound.SoundId = SOUND_ID
-    sound.Volume = 5
+    if sound.SoundId:match("%d+") == "296102734" then
+        sound.Volume = 0
+        sound:Stop()
+        return
+    end
 
-    if sound:GetAttribute("Monitor") then return end
-    sound:SetAttribute("Monitor", true)
-
-    sound:GetPropertyChangedSignal("SoundId"):Connect(function()
-        if sound.SoundId ~= SOUND_ID then
-            sound.SoundId = SOUND_ID
-        end
-    end)
+    sound.SoundId = NEW_SOUND_ID
 end
 
-local function scan(container)
-    for _, object in ipairs(container:GetDescendants()) do
+local function scanCharacter(character)
+    for _, object in ipairs(character:GetDescendants()) do
         replaceSound(object)
     end
 
-    container.DescendantAdded:Connect(replaceSound)
+    character.DescendantAdded:Connect(replaceSound)
 end
-
-scan(Workspace)
 
 if LocalPlayer.Character then
-    scan(LocalPlayer.Character)
+    scanCharacter(LocalPlayer.Character)
 end
 
-LocalPlayer.CharacterAdded:Connect(scan)
+LocalPlayer.CharacterAdded:Connect(scanCharacter)
 
-task.spawn(function()
-    while true do
-        scan(Workspace)
+Workspace.DescendantAdded:Connect(replaceSound)
 
-        if LocalPlayer.Character then
-            for _, object in ipairs(LocalPlayer.Character:GetDescendants()) do
-                replaceSound(object)
-            end
-        end
-
-        task.wait(0.1)
-    end
-end)
+for _, object in ipairs(Workspace:GetDescendants()) do
+    replaceSound(object)
+end
