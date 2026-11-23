@@ -7,6 +7,7 @@ local NEW_SOUND_ID = "rbxassetid://137812518234654"
 local function replaceSound(sound)
     if sound:IsA("Sound") and sound.Name == "GunKill" then
         sound.SoundId = NEW_SOUND_ID
+        sound.Volume = 2
     end
 end
 
