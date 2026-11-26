@@ -3,49 +3,49 @@ local Workspace = game:GetService("Workspace")
 
 local LocalPlayer = Players.LocalPlayer
 
-local NOW_KILL_ID = "296102734"
-local NEW_KILL_ID = "137812518234654"
+local NEW_KILL_ID = "296102734"
+local GUN_KILL_ID = "137812518234654"
 
-local NEW_KILL_VOLUME = 3
+local GUN_KILL_VOLUME = 3
 
 local connections = {}
 
 local function configureSound(sound)
-    if not sound:IsA("Sound") then
-        return
-    end
+if not sound:IsA("Sound") then
+return
+end
 
-    local function updateSound()
-        local id = sound.SoundId:match("%d+") or ""
-        local name = sound.Name:lower()
+local function updateSound()
+local id = sound.SoundId:match("%d+") or ""
+local name = sound.Name:lower()
 
-        if id == NOW_KILL_ID or name:find("GunKill") then
-            if id == NOW_KILL_ID then
-                sound.SoundId = "rbxassetid://" .. NEW_KILL_ID
-            end
+if id == NEW_KILL_ID or name:find("GunKill") then
+if id == NEW_KILL_ID then
+sound.SoundId = "rbxassetid://" .. GUN_KILL_ID
+end
 
-            if id == NEW_KILL_ID then
-                sound.Volume = NEW_KILL_VOLUME
-            end
-        end
-    end
+if name:find("GunKill") then
+sound.Volume = 3
+end
+end
+end
 
-    updateSound()
+updateSound()
 
-    if connections[sound] then
-        return
-    end
+if connections[sound] then
+return
+end
 
-    connections[sound] = true
+connections[sound] = true
 
-    sound:GetPropertyChangedSignal("SoundId"):Connect(updateSound)
-    sound:GetPropertyChangedSignal("Name"):Connect(updateSound)
+sound:GetPropertyChangedSignal("SoundId"):Connect(updateSound)
+sound:GetPropertyChangedSignal("Name"):Connect(updateSound)
 end
 
 local function scan(container)
-    for _, object in ipairs(container:GetDescendants()) do
-        configureSound(object)
-    end
+for _, object in ipairs(container:GetDescendants()) do
+configureSound(object)
+end
 end
 
 Workspace.DescendantAdded:Connect(configureSound)
@@ -55,10 +55,10 @@ scan(Workspace)
 scan(LocalPlayer)
 
 LocalPlayer.CharacterAdded:Connect(function(character)
-    scan(character)
-    character.DescendantAdded:Connect(configureSound)
+scan(character)
+character.DescendantAdded:Connect(configureSound)
 end)
 
 if LocalPlayer.Character then
-    scan(LocalPlayer.Character)
+scan(LocalPlayer.Character)
 end
